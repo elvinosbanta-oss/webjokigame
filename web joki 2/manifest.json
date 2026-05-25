@@ -1,0 +1,15 @@
+{
+  "name": "FF Joki Store",
+  "short_name": "FFJoki",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0f0f0f",
+  "theme_color": "#0f0f0f",
+  "icons": [
+    {
+      "src": "Gambar4.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ]
+}

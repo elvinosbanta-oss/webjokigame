@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FF Joki Store</title>
+
+<link rel="stylesheet" href="style.css">
+<link rel="manifest" href="manifest.json">
+
+<meta name="theme-color" content="#0f0f0f">
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: linear-gradient(135deg, #0a0f1e 0%, #0c1222 100%);
+    color: #e2e8f0;
+}
+
+.auth-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #0a0f1e, #0c1222);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.auth-box {
+    background: linear-gradient(145deg, #111827, #0f172a);
+    padding: 2rem;
+    border-radius: 2rem;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    box-shadow: 0 25px 40px rgba(0,0,0,0.5);
+}
+
+.auth-logo {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    margin-bottom: 1rem;
+}
+
+.auth-box h1 {
+    color: #FFD700;
+    margin-bottom: 0.5rem;
+}
+
+.auth-box p {
+    color: #94a3b8;
+    margin-bottom: 1.5rem;
+    font-size: 0.9rem;
+}
+
+.auth-tabs {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.auth-tab {
+    flex: 1;
+    padding: 0.7rem;
+    background: #1e293b;
+    border: none;
+    color: #cbd5e1;
+    border-radius: 2rem;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.auth-tab.active {
+    background: linear-gradient(90deg, #FFD700, #FFA500);
+    color: #0f172a;
+}
+
+.auth-input {
+    width: 100%;
+    padding: 0.8rem;
+    margin-bottom: 1rem;
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 1rem;
+    color: white;
+    font-size: 1rem;
+}
+
+.auth-input:focus {
+    outline: none;
+    border-color: #FFD700;
+}
+
+.auth-btn {
+    width: 100%;
+    padding: 0.8rem;
+    background: linear-gradient(90deg, #FFD700, #FFA500);
+    border: none;
+    border-radius: 2rem;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-top: 0.5rem;
+    transition: transform 0.2s;
+}
+
+.auth-btn:hover {
+    transform: scale(0.98);
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #111827;
+    padding: 1rem 1.5rem;
+    border-radius: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.top-left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.logo {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+}
+
+.logout-btn {
+    background: #dc2626;
+    padding: 0.5rem 1.2rem;
+    border: none;
+    border-radius: 2rem;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.logout-btn:hover {
+    transform: scale(0.95);
+}
+
+.banner {
+    background: linear-gradient(90deg, #FFD700, #FFA500);
+    color: #0f172a;
+    padding: 1rem;
+    text-align: center;
+    border-radius: 1rem;
+    font-weight: bold;
+    margin-bottom: 2rem;
+}
+
+.section {
+    margin-bottom: 2rem;
+}
+
+.section-title {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: #FFD700;
+}
+
+.category-wrap {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.cat {
+    padding: 0.6rem 1.5rem;
+    background: #1e293b;
+    border: none;
+    border-radius: 2rem;
+    color: #cbd5e1;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.cat.active {
+    background: #FFD700;
+    color: #0f172a;
+}
+
+.cat:hover {
+    background: #FFD700;
+    color: #0f172a;
+}
+
+.package-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+.package-card {
+    background: linear-gradient(145deg, #111827, #0f172a);
+    border-radius: 1.5rem;
+    padding: 1.5rem;
+    position: relative;
+    border: 1px solid rgba(255, 215, 0, 0.2);
+    transition: transform 0.2s;
+}
+
+.package-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(255, 215, 0, 0.5);
+}
+
+.badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: linear-gradient(135deg, #FFD700, #FF8C00);
+    color: #0f172a;
+    font-size: 0.7rem;
+    font-weight: bold;
+    padding: 0.3rem 0.8rem;
+    border-radius: 30px;
+}
+
+.package-card h2 {
+    font-size: 1.2rem;
+    margin: 0.5rem 0;
+    color: #f1f5f9;
+}
+
+.package-card h1 {
+    font-size: 1.8rem;
+    color: #FFD700;
+    margin-bottom: 1rem;
+}
+
+.features {
+    margin: 1rem 0;
+}
+
+.features div {
+    font-size: 0.85rem;
+    margin: 0.3rem 0;
+}
+
+.buy-btn {
+    width: 100%;
+    background: linear-gradient(90deg, #FFD700, #FFA500);
+    border: none;
+    padding: 0.7rem;
+    border-radius: 2rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.buy-btn:hover {
+    transform: scale(0.98);
+}
+
+.extra-card {
+    background: #111827;
+    padding: 1rem;
+    border-radius: 1rem;
+}
+
+.check-wrap {
+    display: block;
+    margin: 0.5rem 0;
+    cursor: pointer;
+}
+
+.input {
+    width: 100%;
+    padding: 0.8rem;
+    margin-bottom: 1rem;
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 1rem;
+    color: white;
+    font-size: 1rem;
+}
+
+.input:focus {
+    outline: none;
+    border-color: #FFD700;
+}
+
+.textarea {
+    min-height: 100px;
+    resize: vertical;
+    font-family: inherit;
+}
+
+.summary {
+    background: #111827;
+    padding: 1.5rem;
+    border-radius: 1rem;
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    margin: 0.5rem 0;
+    font-size: 1.1rem;
+}
+
+.order-btn {
+    width: 100%;
+    padding: 1rem;
+    background: linear-gradient(90deg, #FFD700, #FFA500);
+    border: none;
+    border-radius: 2rem;
+    font-weight: bold;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.order-btn:hover {
+    transform: scale(0.98);
+}
+</style>
+
+</head>
+<body>
+
+<!-- AUTH -->
+<div id="authScreen" class="auth-screen">
+
+<div class="auth-box">
+
+<img src="Gambar1.jpg" class="auth-logo" alt="logo">
+
+<h1>FF Joki Store</h1>
+
+<p>Login atau daftar untuk mulai order joki</p>
+
+<div class="auth-tabs">
+<button class="auth-tab active" onclick="switchAuth('login')">
+Login
+</button>
+
+<button class="auth-tab" onclick="switchAuth('register')">
+Daftar
+</button>
+</div>
+
+<!-- LOGIN -->
+<div id="loginForm">
+
+<input type="text" id="loginUser" class="auth-input" placeholder="Username">
+
+<input type="password" id="loginPass" class="auth-input" placeholder="Password">
+
+<button class="auth-btn" onclick="loginUser()">
+LOGIN SEKARANG
+</button>
+
+</div>
+
+<!-- REGISTER -->
+<div id="registerForm" style="display:none;">
+
+<input type="text" id="regUser" class="auth-input" placeholder="Buat Username">
+
+<input type="password" id="regPass" class="auth-input" placeholder="Buat Password">
+
+<input type="text" id="regWa" class="auth-input" placeholder="Nomor WhatsApp">
+
+<button class="auth-btn" onclick="registerUser()">
+DAFTAR AKUN
+</button>
+
+</div>
+
+</div>
+</div>
+
+<!-- STORE -->
+<div class="container">
+
+<header class="topbar">
+
+<div class="top-left">
+<img src="Gambar4.png" class="logo" alt="logo">
+<div>
+<h2>FF Joki Store</h2>
+<p>Push Rank Fast & Aman</p>
+</div>
+</div>
+
+<button class="logout-btn" onclick="logoutUser()">
+Logout
+</button>
+
+</header>
+
+<!-- BANNER -->
+<div class="banner">
+🔥 DISKON 20% KHUSUS RANK PUSH HARI INI
+</div>
+
+<!-- CATEGORY -->
+<div class="section">
+
+<h3 class="section-title">Kategori Joki</h3>
+
+<div class="category-wrap">
+
+<button class="cat active" onclick="filterCategory('rank')">Rank Push</button>
+
+<button class="cat" onclick="filterCategory('bintang')">Per Bintang</button>
+
+<button class="cat" onclick="filterCategory('full')">Full Paket</button>
+
+</div>
+
+</div>
+
+<!-- PACKAGE -->
+<div class="section" id="rankSection">
+
+<h3 class="section-title">Pilih Paket</h3>
+
+<div class="package-grid">
+
+<div class="package-card">
+
+<div class="badge">HOT</div>
+
+<h2>Gold → Heroic</h2>
+
+<h1>Rp45.000</h1>
+
+<div class="features">
+<div>✔ Aman 100%</div>
+<div>✔ Manual No Cheat</div>
+<div>✔ Fast Proses</div>
+</div>
+
+<button class="buy-btn" onclick="selectPackage('Epic ke Legend','45000')">
+PILIH PAKET
+</button>
+
+</div>
+
+<div class="package-card">
+
+<div class="badge">BEST</div>
+
+<h2>Platinum → Master</h2>
+
+<h1>Rp70.000</h1>
+
+<div class="features">
+<div>✔ Aman 100%</div>
+<div>✔ Fast Push</div>
+<div>✔ Joki Pro Player</div>
+</div>
+
+<button class="buy-btn" onclick="selectPackage('Legend ke Master','70000')">
+PILIH PAKET
+</button>
+
+</div>
+
+<div class="package-card">
+
+<div class="badge">PREMIUM</div>
+
+<h2>Master → Heroic</h2>
+
+<h1>Rp120.000</h1>
+
+<div class="features">
+<div>✔ Prioritas</div>
+<div>✔ Proses Cepat</div>
+<div>✔ Garansi Aman</div>
+</div>
+
+<button class="buy-btn" onclick="selectPackage('Master ke Heroic','120000')">
+PILIH PAKET
+</button>
+
+</div>
+
+</div>
+</div>
+
+<!-- LIST JOKI PER BINTANG -->
+<div class="section" id="bintangSection" style="display:block;">
+
+<h3 class="section-title">⭐ Joki Rank Tier ⭐</h3>
+
+<div class="package-grid">
+
+<div class="package-card">
+<div class="badge">MURAH</div>
+<h2>Gold 1 → Gold 2</h2>
+<h1>Rp5.000</h1>
+<div class="features">
+<div>✔ Manual Player</div>
+<div>✔ Aman</div>
+<div>✔ Fast Match</div>
+</div>
+<button class="buy-btn" onclick="selectPackage('Gold 1 ke Gold 2','5000')">
+PILIH
+</button>
+</div>
+
+<div class="package-card">
+<div class="badge">MURAH</div>
+<h2>Gold 2 → Gold 3</h2>
+<h1>Rp7.000</h1>
+<div class="features">
+<div>✔ Manual Player</div>
+<div>✔ Aman</div>
+<div>✔ Fast Match</div>
+</div>
+<button class="buy-btn" onclick="selectPackage('Gold 2 ke Gold 3','7000')">
+PILIH
+</button>
+</div>
+
+<div class="package-card">
+<div class="badge">MURAH</div>
+<h2>Gold 3 → Gold 4</h2>
+<h1>Rp9.000</h1>
+<div class="features">
+<div>✔ Manual Player</div>
+<div>✔ Aman</div>
+<div>✔ Fast Match</div>
+</div>
+<button class="buy-btn" onclick="selectPackage('Gold 3 ke Gold 4','9000')">
+PILIH
+</button>
+</div>
+
+<div class="package-card">
+<div class="badge">MURAH</div>
+<h2>Gold 4 → Platinum 1</h2>
+<h1>Rp8.000</h1>
+<div class="features">
+<div>✔ Manual Player</div>
+<div>✔ Aman</div>
+<div>✔ Fast Match</div>
+</div>
+<button class="buy-btn" onclick="selectPackage('Gold 4 ke Platinum 1','8000')">
+PILIH
+</button>
+</div>
+
+<div class="package-card">
+<div class="badge">HEMAT</div>
+<h2>Platinum 1 → Platinum 2</h2>
+<h1>Rp11.000</h1>
+<div class="features">
+<div>✔ Manual Push</div>
+<div>✔ Aman</div>
+<div>✔ Cepat</div>
+</div>
+<button class="buy-btn" onclick="selectPackage('Platinum 1 ke Platinum 2','11000')">
+PILIH
+</button>
+</div>
+
+<div class="package-card">
+<div class="badge">HEMAT</div>
+<h2>Platinum 2 → Platinum 3</h2>
+<h1>Rp14.000</h1>
+<div class="features">
+<div>✔ Manual Push</div>
+<div>✔ Aman</div>
+<div>✔ Cepat</div>
+</div>
+<button class="buy-btn" onclick="selectPackage('Platinum 2 ke Platinum 3','14000')">
+PILIH
+</button>
+</div>
+
+<div class="package-card">
+<div class="badge">HEMAT</div>
+<h2>Platinum 3 → Platinum 4</h2>
+<h1>Rp17.000</h1>
+<div class="features">
+<div>✔ Manual Push</div>
+<div>✔ Aman</div>
+<div>✔ Cepat</div>
+</div>
+<button class="buy-btn" onclick="selectPackage('Platinum 3 ke Platinum 4','17000')">
+PILIH
+</button>
+</div>
+
+<div class="package-card">
+<div class="badge">HEMAT</div>
+<h2>Platinum 4 → Platinum 5</h2>
+<h1>Rp21.000</h1>
+<div class="features">
+<div>✔ Manual Push</div>
+<div>✔ Aman</div>
+<div>✔ Cepat</div>
+</div>
+<button class="buy-btn" onclick="selectPackage('Platinum 4 ke Platinum 5','21000')">
+PILIH
+</button>
+</div>
+
+<div class="package-card">
+<div class="badge">HEMAT</div>
+<h2>Platinum 5 → Diamond 1</h2>
+<h1>Rp19.000</h1>
+<div class="features">
+<div>✔ Manual Push</div>
+<div>✔ Aman</div>
+<div>✔ Cepat</div>
+</div>
+<button class="buy-btn" onclick="selectPackage('Platinum 5 ke Diamond 1','19000')">
+PILIH
+</button>
+</div>
+
+<div class="package-card">
+<div class="badge">LARIS</div>
+<h2>Diamond 1 → Diamond 2</h2>
+<h1>Rp17.500</h1>
+<div class="features">
+<div>✔ Joki Pro</div>
+<div>✔ Aman</div>
+<div>✔ Fast</div>
+</div>
+<button class="buy-btn" onclick="selectPackage('Diamond 1 ke Diamond 2','17500')">
+PILIH
+</button>
+</div>
+
+<div class="package-card">
+<div class="badge">LARIS</div>
+<h2>Diamond 2 → Diamond 3</h2>
+<h1>Rp22.500</h1>
+<div class="features">
+<div>✔ Joki Pro</div>
+<div>✔ Aman</div>
+<div>✔ Fast</div>
+</div>
+<button class="buy-btn" onclick="selectPackage('Diamond 2 ke Diamond 3','22500')">
+PILIH
+</button>
+</div>
+
+<div class="package-card">
+<div class="badge">LARIS</div>
+<h2>Diamond 3 → Diamond 4</h2>
+<h1>Rp27.000</h1>
+<div class="features">
+<div>✔ Joki Pro</div>
+<div>✔ Aman</div>
+<div>✔ Fast</div>
+</div>
+<button class="buy-btn" onclick="selectPackage('Diamond 3 ke Diamond 4','27000')">
+PILIH
+</button>
+</div>
+
+<div class="package-card">
+<div class="badge">LARIS</div>
+<h2>Diamond 4 → Diamond 5</h2>
+<h1>Rp32.000</h1>
+<div class="features">
+<div>✔ Joki Pro</div>
+<div>✔ Aman</div>
+<div>✔ Fast</div>
+</div>
+<button class="buy-btn" onclick="selectPackage('Diamond 4 ke Diamond 5','32000')">
+PILIH
+</button>
+</div>
+
+<div class="package-card">
+<div class="badge">BEST</div>
+<h2>Diamond 5 → Heroic 1</h2>
+<h1>Rp45.000</h1>
+<div class="features">
+<div>✔ Fast Push</div>
+<div>✔ Aman</div>
+<div>✔ Win Rate Tinggi</div>
+</div>
+<button class="buy-btn" onclick="selectPackage('Diamond 5 ke Heroic 1','45000')">
+PILIH
+</button>
+</div>
+
+<div class="package-card">
+<div class="badge">BEST</div>
+<h2>Heroic 1 → Heroic 2</h2>
+<h1>Rp45.000</h1>
+<div class="features">
+<div>✔ Fast Push</div>
+<div>✔ Aman</div>
+<div>✔ Win Rate Tinggi</div>
+</div>
+<button class="buy-btn" onclick="selectPackage('Heroic 1 ke Heroic 2','45000')">
+PILIH
+</button>
+</div>
+
+<div class="package-card">
+<div class="badge">BEST</div>
+<h2>Heroic 2 → Heroic 3</h2>
+<h1>Rp45.000</h1>
+<div class="features">
+<div>✔ Fast Push</div>
+<div>✔ Aman</div>
+<div>✔ Win Rate Tinggi</div>
+</div>
+<button class="buy-btn" onclick="selectPackage('Heroic 2 ke Heroic 3','45000')">
+PILIH
+</button>
+</div>
+
+<div class="package-card">
+<div class="badge">PREMIUM</div>
+<h2>Elit Heroic 3 → Elit 4</h2>
+<h1>Rp55.000</h1>
+<div class="features">
+<div>✔ Pro Player</div>
+<div>✔ Brutal Push</div>
+<div>✔ Aman Akun</div>
+</div>
+<button class="buy-btn" onclick="selectPackage('Elit Heroic 3 ke Elit 4','55000')">
+PILIH
+</button>
+</div>
+
+<div class="package-card">
+<div class="badge">PREMIUM</div>
+<h2>Elit Heroic 4 → Elit 5</h2>
+<h1>Rp60.000</h1>
+<div class="features">
+<div>✔ Pro Player</div>
+<div>✔ Brutal Push</div>
+<div>✔ Aman Akun</div>
+</div>
+<button class="buy-btn" onclick="selectPackage('Elit Heroic 4 ke Elit 5','60000')">
+PILIH
+</button>
+</div>
+
+<div class="package-card">
+<div class="badge">PREMIUM</div>
+<h2>Elit Heroic 5 → Master 1</h2>
+<h1>Rp80.000</h1>
+<div class="features">
+<div>✔ Pro Player</div>
+<div>✔ Brutal Push</div>
+<div>✔ Aman Akun</div>
+</div>
+<button class="buy-btn" onclick="selectPackage('Elit Heroic 5 ke Master 1','80000')">
+PILIH
+</button>
+</div>
+
+<div class="package-card">
+<div class="badge">TOP</div>
+<h2>Master 1 → Master 2</h2>
+<h1>Rp90.000</h1>
+<div class="features">
+<div>✔ Tournament Player</div>
+<div>✔ Fast 24 Jam</div>
+<div>✔ Aman</div>
+</div>
+<button class="buy-btn" onclick="selectPackage('Master 1 ke Master 2','90000')">
+PILIH
+</button>
+</div>
+
+<div class="package-card">
+<div class="badge">TOP</div>
+<h2>Master 2 → Master 3</h2>
+<h1>Rp100.000</h1>
+<div class="features">
+<div>✔ Tournament Player</div>
+<div>✔ Fast 24 Jam</div>
+<div>✔ Aman</div>
+</div>
+<button class="buy-btn" onclick="selectPackage('Master 2 ke Master 3','100000')">
+PILIH
+</button>
+</div>
+
+</div>
+</div>
+
+<!-- EXTRA -->
+<div class="section">
+
+<h3 class="section-title">Tambahan Layanan</h3>
+
+<div class="extra-card">
+
+<label class="check-wrap">
+<input type="checkbox" id="fast" onchange="updateTotal()">
+⚡ Fast Proses (+5000)
+</label>
+
+<label class="check-wrap">
+<input type="checkbox" id="safe" onchange="updateTotal()">
+🛡️ Main Aman
+</label>
+
+</div>
+
+</div>
+
+<!-- FORM -->
+<div class="section">
+
+<h3 class="section-title">Data Akun</h3>
+
+<input type="text" id="gameId" class="input" placeholder="ID Free Fire">
+
+<input type="text" id="nick" class="input" placeholder="Nickname">
+
+<input type="text" id="wa" class="input" placeholder="WhatsApp">
+
+<textarea id="note" class="input textarea" placeholder="Catatan tambahan"></textarea>
+
+</div>
+
+<!-- SUMMARY -->
+<div class="section">
+
+<h3 class="section-title">Ringkasan</h3>
+
+<div class="summary">
+
+<div class="row">
+<span>Paket</span>
+<span id="summaryPackage">-</span>
+</div>
+
+<div class="row">
+<span>Harga</span>
+<span id="summaryPrice">Rp0</span>
+</div>
+
+<div class="row" id="fastRow" style="display:none;">
+<span>⚡ Fast Proses</span>
+<span id="fastPrice">+Rp5.000</span>
+</div>
+
+<div class="row" style="border-top: 1px solid #334155; margin-top: 8px; padding-top: 8px; font-weight: bold;">
+<span>Total</span>
+<span id="totalPrice">Rp0</span>
+</div>
+
+</div>
+
+</div>
+
+<!-- ORDER -->
+<div class="section">
+
+<button class="order-btn" onclick="orderNow()">
+
+ORDER SEKARANG
+
+</button>
+
+</div>
+
+</div>
+
+<script>
+var selectedPackageName = "";
+var selectedPackagePrice = 0;
+
+function selectPackage(paket, harga) {
+    selectedPackageName = paket;
+    selectedPackagePrice = parseInt(harga);
+    document.getElementById('summaryPackage').innerText = paket;
+    document.getElementById('summaryPrice').innerText = 'Rp' + selectedPackagePrice.toLocaleString('id-ID');
+    updateTotal();
+    alert("Paket: " + paket + "\nHarga: Rp" + selectedPackagePrice.toLocaleString('id-ID'));
+}
+
+function updateTotal() {
+    var total = selectedPackagePrice;
+    var fastChecked = document.getElementById('fast').checked;
+    var fastRow = document.getElementById('fastRow');
+    
+    if(fastChecked) {
+        total += 5000;
+        fastRow.style.display = 'flex';
+    } else {
+        fastRow.style.display = 'none';
+    }
+    
+    document.getElementById('totalPrice').innerText = 'Rp' + total.toLocaleString('id-ID');
+}
+
+function switchAuth(type) {
+    var loginForm = document.getElementById('loginForm');
+    var registerForm = document.getElementById('registerForm');
+    var tabs = document.querySelectorAll('.auth-tab');
+    
+    if(type === 'login') {
+        loginForm.style.display = 'block';
+        registerForm.style.display = 'none';
+        tabs[0].classList.add('active');
+        tabs[1].classList.remove('active');
+    } else {
+        loginForm.style.display = 'none';
+        registerForm.style.display = 'block';
+        tabs[1].classList.add('active');
+        tabs[0].classList.remove('active');
+    }
+}
+
+function loginUser() {
+    var username = document.getElementById('loginUser').value;
+    var password = document.getElementById('loginPass').value;
+    
+    if(username === "" || password === "") {
+        alert("Harap isi username dan password!");
+        return;
+    }
+    alert("Login berhasil! Selamat datang " + username);
+    document.getElementById('authScreen').style.display = 'none';
+}
+
+function registerUser() {
+    var user = document.getElementById('regUser').value;
+    var pass = document.getElementById('regPass').value;
+    var wa = document.getElementById('regWa').value;
+    
+    if(user === "" || pass === "" || wa === "") {
+        alert("Harap lengkapi semua data pendaftaran!");
+        return;
+    }
+    alert("Pendaftaran berhasil! Silakan login.");
+    switchAuth('login');
+}
+
+function logoutUser() {
+    document.getElementById('authScreen').style.display = 'flex';
+    selectedPackageName = "";
+    selectedPackagePrice = 0;
+    document.getElementById('summaryPackage').innerText = '-';
+    document.getElementById('summaryPrice').innerText = 'Rp0';
+    document.getElementById('totalPrice').innerText = 'Rp0';
+    document.getElementById('fast').checked = false;
+    document.getElementById('fastRow').style.display = 'none';
+    document.getElementById('gameId').value = "";
+    document.getElementById('nick').value = "";
+    document.getElementById('wa').value = "";
+    document.getElementById('note').value = "";
+}
+
+function filterCategory(category) {
+    var cats = document.querySelectorAll('.cat');
+    cats.forEach(function(cat) {
+        cat.classList.remove('active');
+    });
+    event.target.classList.add('active');
+    
+    var rankSection = document.getElementById('rankSection');
+    var bintangSection = document.getElementById('bintangSection');
+    
+    if(category === 'rank') {
+        rankSection.style.display = 'block';
+        bintangSection.style.display = 'block';
+    } else if(category === 'bintang') {
+        rankSection.style.display = 'block';
+        bintangSection.style.display = 'block';
+    } else if(category === 'full') {
+        rankSection.style.display = 'block';
+        bintangSection.style.display = 'block';
+    }
+}
+
+function orderNow() {
+    if(selectedPackageName === "") {
+        alert("Silakan pilih paket terlebih dahulu!");
+        return;
+    }
+    
+    var gameId = document.getElementById('gameId').value;
+    var nick = document.getElementById('nick').value;
+    var wa = document.getElementById('wa').value;
+    var fastChecked = document.getElementById('fast').checked;
+    var note = document.getElementById('note').value;
+    
+    if(gameId === "") {
+        alert("Masukkan ID Free Fire!");
+        return;
+    }
+    if(nick === "") {
+        alert("Masukkan Nickname!");
+        return;
+    }
+    if(wa === "") {
+        alert("Masukkan nomor WhatsApp!");
+        return;
+    }
+    
+    var total = selectedPackagePrice;
+    if(fastChecked) total += 5000;
+    
+    var message = "✅ ORDERAN ANDA\n\n";
+    message += "📦 Paket: " + selectedPackageName + "\n";
+    message += "💰 Harga Paket: Rp" + selectedPackagePrice.toLocaleString('id-ID') + "\n";
+    if(fastChecked) message += "⚡ Fast Proses: +Rp5.000\n";
+    message += "💵 TOTAL: Rp" + total.toLocaleString('id-ID') + "\n\n";
+    message += "🆔 ID FF: " + gameId + "\n";
+    message += "👤 Nickname: " + nick + "\n";
+    message += "📱 WhatsApp: " + wa + "\n";
+    if(note) message += "📝 Catatan: " + note + "\n\n";
+    message += "Pesanan akan diproses. Admin akan menghubungi Anda dalam 5-10 menit.";
+    
+    alert(message);
+}
+</script>
+
+</body>
+</html>
